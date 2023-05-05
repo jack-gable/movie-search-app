@@ -9,3 +9,4 @@ A small application that allows users to search for their favorite movies, each 
 - React
 - CSS
 - TheMovieDB API
+- custom hooks

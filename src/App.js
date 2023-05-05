@@ -1,11 +1,12 @@
 import React from "react";
 import Movie from "./Movie";
+import useLocalStorage from "./hooks/useLocalStorage";
 import "./App.css";
 
 export function App() {
 	const [query, setQuery] = React.useState("");
 	const [movies, setMovies] = React.useState([]);
-	const [favorites, setFavorites] = React.useState([]);
+	const [favorites, setFavorites] = useLocalStorage("favorites", []);
 	const [isFavViewOpen, setIsFavViewOpen] = React.useState(false);
 
 	function addToFavorites(newItem) {
