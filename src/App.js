@@ -45,6 +45,7 @@ export function App() {
 					Movie Name
 				</label>
 				<input
+					id="query"
 					className="input"
 					type="text"
 					name="query"
