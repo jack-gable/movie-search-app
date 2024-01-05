@@ -1,31 +1,24 @@
-html {
-	font-size: 10px;
-}
-
-* {
-	box-sizing: border-box;
-}
-
-body {
-	margin: 0;
-	padding: 0;
-	background-color: #0b0f16;
-	color: #d7d7d7;
-	font-family: "Roboto", sans-serif;
-}
-
-p {
-	font-size: 1.6rem;
+/* todo: create variables for all colors and fonts */
+:root {
+	--bg-dark: hsl(218, 33%, 6%);
+	--text-dark: hsl(0, 0%, 84%);
+	--text-gray: hsl(0, 0%, 20%);
+	--favorite: hsl(47, 92%, 53%);
+	--color-gray-100: hsl(0, 0%, 99%);
+	--color-gray-200: hsl(0, 0%, 87%);
+	--color-gray-300: hsl(50 10% 70%);
+	--color-gray-500: hsl(50 4% 50%);
+	--color-gray-700: hsl(50 10% 25%);
+	--color-gray-900: hsl(50 20% 10%);
+	--color-gray-1000: hsl(0, 0%, 0%);
+	--primary: hsl(357, 92%, 47%);
+	--btn-border: hsla(0, 0%, 0%, 0.75);
+	--btn-hover: hsla(0, 0%, 0%, 0.85);
+	--btn-hover-border: hsla(0, 0%, 100%, 0.85);
 }
 
 small {
 	font-size: 1.2rem;
-}
-
-.container {
-	margin: 0 auto;
-	max-width: 1000px;
-	padding: 40px;
 }
 
 .btn-container {
@@ -36,45 +29,8 @@ small {
 
 .title {
 	font-family: "Poppins", sans-serif;
-	font-size: 4rem;
 	text-align: center;
 	margin-bottom: 0;
-}
-
-.form {
-	display: grid;
-	padding: 2rem;
-}
-
-.label {
-	font-size: 1.2rem;
-	margin-bottom: 0.2rem;
-	text-transform: uppercase;
-}
-
-.input {
-	font-size: 1.6rem;
-	padding: 0.5rem 2rem;
-	line-height: 2.8rem;
-	border-radius: 20px;
-	border: 1px solid #ddd;
-	margin-bottom: 1rem;
-}
-
-.button {
-	background-color: #e50914;
-	color: white;
-	padding: 1rem 2rem;
-	border: 1px solid rgba(0, 0, 0, 0.75);
-	border-radius: 20px;
-	font-size: 1.4rem;
-	cursor: pointer;
-	transition: background-color 250ms;
-}
-
-.button:hover {
-	background-color: rgba(0, 0, 0, 0.85);
-	border: 1px solid rgba(255, 255, 255, 0.85);
 }
 
 .card-list {
@@ -84,15 +40,14 @@ small {
 .card {
 	padding: 2rem 4rem;
 	border-radius: 10px;
-	box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+	box-shadow: 1px 1px 5px var(--color-gray-1000);
 	margin-bottom: 2rem;
-	background-color: white;
-	color: #333;
+	background-color: var(--color-gray-100);
+	color: var(--text-gray);
 }
 
 .card--title {
 	margin-bottom: 0.5rem;
-	font-size: 3.2rem;
 	font-family: "Merriweather", serif;
 }
 
@@ -103,8 +58,7 @@ small {
 }
 
 .favorite {
-	color: #f5c518;
-	font-size: 3rem;
+	color: var(--favorite);
 	position: relative;
 	top: 5px;
 	right: 5px;

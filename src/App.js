@@ -1,7 +1,9 @@
 import React from "react";
-import Movie from "./Movie";
+import Movie from "./components/Movie/Movie";
 import useLocalStorage from "./hooks/useLocalStorage";
 import "./App.css";
+import Form from "./components/Form/Form";
+import Button from "./components/Button";
 
 export function App() {
 	const [query, setQuery] = React.useState("");
@@ -37,36 +39,18 @@ export function App() {
 		setQuery("");
 	};
 
+	// todo: separate rest of components out
+	// todo: add favorites section like josh's book recommendation
+
 	return (
 		<div>
 			<h1 className="title">Welcome to Movie Search</h1>
-			<form className="form" onSubmit={searchMovies}>
-				<label className="label" htmlFor="query">
-					Movie Name
-				</label>
-				<input
-					id="query"
-					className="input"
-					type="text"
-					name="query"
-					placeholder="i.e. Jurassic Park"
-					value={query}
-					onChange={(e) => setQuery(e.target.value)}
-				/>
-				<button className="button" type="submit">
-					Search
-				</button>
-			</form>
+			<Form searchMovies={searchMovies} query={query} setQuery={setQuery} />
 			<div className="btn-container">
-				<button
-					className="button"
-					onClick={() => setIsFavViewOpen(!isFavViewOpen)}
-				>
+				<Button handleClick={() => setIsFavViewOpen(!isFavViewOpen)}>
 					View Favorites
-				</button>
-				<button className="button" onClick={() => emptyFavorites()}>
-					Clear Favorites
-				</button>
+				</Button>
+				<Button handleClick={() => emptyFavorites()}>Clear Favorites</Button>
 			</div>
 			<div className="card-list">
 				{isFavViewOpen
