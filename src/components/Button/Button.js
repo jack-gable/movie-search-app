@@ -1,20 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-function Button({ children, type, handleClick, ...delegated }) {
-	if (type === "submit") {
-		return (
-			<Wrapper type="submit" {...delegated}>
-				{children}
-			</Wrapper>
-		);
-	} else {
-		return (
-			<Wrapper onClick={handleClick} {...delegated}>
-				{children}
-			</Wrapper>
-		);
-	}
+function Button({ children, handleClick, ...delegated }) {
+	return (
+		<Wrapper onClick={handleClick} {...delegated}>
+			{children}
+		</Wrapper>
+	);
 }
 
 const Wrapper = styled.button`
@@ -28,7 +20,7 @@ const Wrapper = styled.button`
 
 	&:hover {
 		background-color: var(--btn-hover);
-		border: 1px solid var(--btn-hover-border);
+		border: 1.5px solid var(--btn-hover-border);
 	}
 `;
 

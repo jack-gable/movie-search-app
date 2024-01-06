@@ -1,27 +1,14 @@
 import React from "react";
-import Movie from "./components/Movie/Movie";
-import useLocalStorage from "./hooks/useLocalStorage";
+import styled from "styled-components";
+// import useLocalStorage from "./hooks/useLocalStorage";
 import "./App.css";
-import Form from "./components/Form/Form";
-import Button from "./components/Button";
+import Form from "./components/Form";
+import MoviesGrid from "./components/MoviesGrid";
+import FavoritesList from "./components/FavoritesList";
 
 export function App() {
 	const [query, setQuery] = React.useState("");
 	const [movies, setMovies] = React.useState([]);
-	const [favorites, setFavorites] = useLocalStorage("favorites", []);
-	const [isFavViewOpen, setIsFavViewOpen] = React.useState(false);
-
-	function addToFavorites(newItem) {
-		setFavorites((prevItems) => [...prevItems, newItem]);
-	}
-
-	function removeFromFavorites(id) {
-		setFavorites((prevItems) => prevItems.filter((item) => item.id !== id));
-	}
-
-	function emptyFavorites() {
-		setFavorites([]);
-	}
 
 	const searchMovies = async (e) => {
 		e.preventDefault();
@@ -39,46 +26,50 @@ export function App() {
 		setQuery("");
 	};
 
-	// todo: separate rest of components out
-	// todo: add favorites section like josh's book recommendation
+	function toggleMovie(toggledMovie) {
+		const nextMovies = movies.filter((movie) => movie.id !== toggledMovie.id);
+
+		nextMovies.push({
+			...toggledMovie,
+			favorited: !toggledMovie.favorited,
+		});
+
+		setMovies(nextMovies);
+	}
+
+	const favoritedMovies = movies.filter((movie) => movie.favorited);
+	const unFavoritedMovies = movies.filter((movie) => !movie.favorited);
 
 	return (
-		<div>
-			<h1 className="title">Welcome to Movie Search</h1>
+		<>
+			<Title>Welcome to Movie Search</Title>
 			<Form searchMovies={searchMovies} query={query} setQuery={setQuery} />
-			<div className="btn-container">
-				<Button handleClick={() => setIsFavViewOpen(!isFavViewOpen)}>
-					View Favorites
-				</Button>
-				<Button handleClick={() => emptyFavorites()}>Clear Favorites</Button>
-			</div>
-			<div className="card-list">
-				{isFavViewOpen
-					? favorites
-							.filter((favorite) => favorite.poster_path)
-							.map((favorite) => (
-								<Movie
-									key={favorite.id}
-									movie={favorite}
-									favorites={favorites}
-									addToFavorites={addToFavorites}
-									removeFromFavorites={removeFromFavorites}
-								/>
-							))
-					: movies
-							.filter((movie) => movie.poster_path)
-							.map((movie) => (
-								<Movie
-									key={movie.id}
-									movie={movie}
-									favorites={favorites}
-									addToFavorites={addToFavorites}
-									removeFromFavorites={removeFromFavorites}
-								/>
-							))}
-			</div>
-		</div>
+			<Wrapper>
+				<MoviesGrid
+					movies={unFavoritedMovies}
+					handleSelectMovie={toggleMovie}
+				/>
+				{favoritedMovies.length > 0 && (
+					<FavoritesList
+						movies={favoritedMovies}
+						handleRemoveMovie={toggleMovie}
+					/>
+				)}
+			</Wrapper>
+		</>
 	);
 }
+
+const Wrapper = styled.div`
+	display: flex;
+	min-height: 100vh;
+	overflow: hidden;
+`;
+
+const Title = styled.h1`
+	font-family: "Poppins", sans-serif;
+	text-align: center;
+	padding: 0.8rem;
+`;
 
 export default App;

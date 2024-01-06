@@ -6,7 +6,6 @@ import { Search } from "react-feather";
 function Form({ searchMovies, query, setQuery }) {
 	return (
 		<FormContainer onSubmit={searchMovies}>
-			<Label htmlFor="query">Movie Name</Label>
 			<Input
 				id="query"
 				type="text"
@@ -43,7 +42,7 @@ const Input = styled.input`
 	border-radius: 20px;
 	border: 1px solid var(--color-gray-200);
 	margin-right: 1rem;
-	width: 350px;
+	width: 40%;
 `;
 
 export default Form;
