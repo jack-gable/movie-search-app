@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-// import useLocalStorage from "./hooks/useLocalStorage";
 import "./App.css";
 import Form from "./components/Form";
 import MoviesGrid from "./components/MoviesGrid";
@@ -9,6 +8,7 @@ import FavoritesList from "./components/FavoritesList";
 export function App() {
 	const [query, setQuery] = React.useState("");
 	const [movies, setMovies] = React.useState([]);
+	const [favorites, setFavorites] = React.useState([]);
 
 	const searchMovies = async (e) => {
 		e.preventDefault();
@@ -37,25 +37,49 @@ export function App() {
 		setMovies(nextMovies);
 	}
 
+	function AddToFavorites(toggledMovie) {
+		if (favorites.includes(toggledMovie) === false) {
+			setFavorites([...favorites, toggledMovie]);
+			toggleMovie(toggledMovie);
+		}
+	}
+
+	function RemoveFromFavorites(toggledMovie) {
+		const nextFavorites = favorites.filter(
+			(favorite) => favorite.id !== toggledMovie.id
+		);
+
+		setFavorites(nextFavorites);
+		toggleMovie(toggledMovie);
+	}
+
 	const favoritedMovies = movies.filter((movie) => movie.favorited);
 	const unFavoritedMovies = movies.filter((movie) => !movie.favorited);
+
+	console.log(favoritedMovies);
 
 	return (
 		<>
 			<Title>Welcome to Movie Search</Title>
 			<Form searchMovies={searchMovies} query={query} setQuery={setQuery} />
-			<Wrapper>
-				<MoviesGrid
-					movies={unFavoritedMovies}
-					handleSelectMovie={toggleMovie}
-				/>
-				{favoritedMovies.length > 0 && (
-					<FavoritesList
-						movies={favoritedMovies}
-						handleRemoveMovie={toggleMovie}
+			{movies.length <= 0 ? (
+				<Subtitle>
+					<em>Find Your Favorite Movies!</em> 📽️
+				</Subtitle>
+			) : (
+				<Wrapper>
+					<MoviesGrid
+						movies={unFavoritedMovies}
+						handleSelectMovie={AddToFavorites}
 					/>
-				)}
-			</Wrapper>
+					{favorites.length > 0 && (
+						<FavoritesList
+							movies={favoritedMovies}
+							handleRemoveMovie={RemoveFromFavorites}
+						/>
+					)}
+				</Wrapper>
+			)}
 		</>
 	);
 }
@@ -63,6 +87,7 @@ export function App() {
 const Wrapper = styled.div`
 	display: flex;
 	min-height: 100vh;
+	min-height: 100svh;
 	overflow: hidden;
 `;
 
@@ -70,6 +95,15 @@ const Title = styled.h1`
 	font-family: "Poppins", sans-serif;
 	text-align: center;
 	padding: 0.8rem;
+`;
+
+const Subtitle = styled.h2`
+	font-size: 1.5rem;
+	font-family: "Merriweather", serif;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 `;
 
 export default App;

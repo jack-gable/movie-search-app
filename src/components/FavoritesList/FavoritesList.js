@@ -8,7 +8,7 @@ function FavoritesList({ movies, handleRemoveMovie }) {
 	const [highlightMovieIndex, setHighlightMovieIndex] = React.useState(null);
 
 	return (
-		<div>
+		<>
 			<Wrapper
 				onMouseLeave={() => {
 					setHighlightMovieIndex(null);
@@ -23,7 +23,7 @@ function FavoritesList({ movies, handleRemoveMovie }) {
 							let height = Math.max(50 - reversedMovieIndex * 5, 10);
 
 							if (movieIndex === highlightMovieIndex) {
-								height = 150;
+								height = 200;
 							}
 
 							return (
@@ -63,7 +63,7 @@ function FavoritesList({ movies, handleRemoveMovie }) {
 						})}
 				</Favorites>
 			</Wrapper>
-		</div>
+		</>
 	);
 }
 

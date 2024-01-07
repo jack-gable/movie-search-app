@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { Star } from "react-feather";
 
 function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
 	return (
@@ -9,22 +10,36 @@ function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
 				{movies
 					.filter((movie) => movie.poster_path)
 					.map((movie) => (
-						<Movie key={movie.id}>
-							<Toggle onClick={() => handleSelectMovie(movie)}>
-								<Image
-									layoutId={`movie-poster-${movie.id}`}
-									src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
-									alt={movie.title + " poster"}
-									draggable={false}
-								/>
-								<Content>
-									<Title>{movie.title}</Title>
-									<p>Release Date: {movie.release_date}</p>
-									<p>Rating: {movie.vote_average.toFixed(1)}</p>
-									<Description>{movie.overview}</Description>
-								</Content>
-							</Toggle>
-						</Movie>
+						<li key={movie.id}>
+							<Image
+								layoutId={`movie-poster-${movie.id}`}
+								src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
+								alt={movie.title + " poster"}
+								draggable={false}
+								transition={{
+									type: "spring",
+									stiffness: 400,
+									damping: 60,
+								}}
+							/>
+							{/* <Content>
+								<Title>{movie.title}</Title>
+								<p>Release Date: {movie.release_date}</p>
+								<p>Rating: {movie.vote_average.toFixed(1)}</p>
+								<Description>{movie.overview}</Description>
+							</Content> */}
+							<FavoriteBtn
+								layout="position"
+								onClick={() => handleSelectMovie(movie)}
+								transition={{
+									type: "spring",
+									stiffness: 400,
+									damping: 60,
+								}}
+							>
+								<Star />
+							</FavoriteBtn>
+						</li>
 					))}
 			</Wrapper>
 		</Grid>
@@ -35,23 +50,53 @@ const Grid = styled.section`
 	flex: 1;
 `;
 
-const Wrapper = styled.div`
+const Wrapper = styled.ul`
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 	align-content: start;
 	grid-gap: 8px;
 	padding: 16px;
 	border-radius: 8px;
+	list-style-type: none;
+
+	& li {
+		position: relative;
+	}
 `;
 
-const Toggle = styled.button`
+const Container = styled.div`
 	position: relative;
 	display: block;
 	background: transparent;
 	border: none;
 	padding: 0;
-	cursor: pointer;
 	width: 100%;
+	cursor: pointer;
+`;
+
+const FavoriteBtn = styled.button`
+	--size: 40px;
+	position: absolute;
+	top: 4px;
+	left: 4px;
+	background: var(--favorites-black);
+	color: gold;
+	border: none;
+	width: var(--size);
+	height: var(--size);
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 4px;
+	backdrop-filter: blur(2px);
+	cursor: pointer;
+
+	&:hover {
+		svg {
+			fill: gold;
+		}
+	}
 `;
 
 const Image = styled(motion.img)`
@@ -60,6 +105,8 @@ const Image = styled(motion.img)`
 	object-fit: cover;
 	width: 100%;
 	will-change: transform;
+	border: 2px solid var(--color-gray-200);
+	border-radius: 18px;
 `;
 
 const Content = styled.div`
@@ -82,23 +129,20 @@ const Content = styled.div`
 	}
 `;
 
-const Movie = styled.div`
-	font-family: "Merriweather", serif;
+const Movie = styled.li`
 	position: relative;
-	overflow: hidden;
-	border: 2px solid var(--color-gray-200);
-	border-radius: 18px;
 
-	&:hover {
+	/* &:hover {
 		${Content} {
-			opacity: 0.9;
+			opacity: 0.7;
 			visibility: visible;
 			transition-duration: 1000ms;
 			transition-property: all;
+			transition-delay: 1000ms;
 			background: var(--color-gray-200);
 			color: var(--text-gray);
 		}
-	}
+	} */
 `;
 
 const Title = styled.h3`
