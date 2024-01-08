@@ -4,13 +4,30 @@ import { motion } from "framer-motion";
 import { Star } from "react-feather";
 
 function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
+	// const [openView, setOpenView] = React.useState(false);
+
+	// const addedStyles = {
+	// 	opacity: 0.7,
+	// 	visibility: "visible",
+	// 	transitionDuration: 1000 + "ms",
+	// 	transitionProperty: "all",
+	// 	transitionDelay: 1000 + "ms",
+	// 	background: "var(--color-gray-200)",
+	// 	color: "var(--text-gray)",
+	// };
+
+	// function handleClick() {
+	// 	setOpenView(!openView);
+	// 	console.log("clicked");
+	// }
+
 	return (
 		<Grid {...delegated}>
 			<Wrapper>
 				{movies
 					.filter((movie) => movie.poster_path)
 					.map((movie) => (
-						<li key={movie.id}>
+						<Movie key={movie.id}>
 							<Image
 								layoutId={`movie-poster-${movie.id}`}
 								src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
@@ -22,12 +39,12 @@ function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
 									damping: 60,
 								}}
 							/>
-							{/* <Content>
+							<Content>
 								<Title>{movie.title}</Title>
 								<p>Release Date: {movie.release_date}</p>
 								<p>Rating: {movie.vote_average.toFixed(1)}</p>
 								<Description>{movie.overview}</Description>
-							</Content> */}
+							</Content>
 							<FavoriteBtn
 								layout="position"
 								onClick={() => handleSelectMovie(movie)}
@@ -39,7 +56,7 @@ function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
 							>
 								<Star />
 							</FavoriteBtn>
-						</li>
+						</Movie>
 					))}
 			</Wrapper>
 		</Grid>
@@ -58,27 +75,13 @@ const Wrapper = styled.ul`
 	padding: 16px;
 	border-radius: 8px;
 	list-style-type: none;
-
-	& li {
-		position: relative;
-	}
 `;
 
-const Container = styled.div`
-	position: relative;
-	display: block;
-	background: transparent;
-	border: none;
-	padding: 0;
-	width: 100%;
-	cursor: pointer;
-`;
-
-const FavoriteBtn = styled.button`
+const FavoriteBtn = styled(motion.button)`
 	--size: 40px;
 	position: absolute;
-	top: 4px;
-	left: 4px;
+	top: 6px;
+	left: 6px;
 	background: var(--favorites-black);
 	color: gold;
 	border: none;
@@ -123,6 +126,7 @@ const Content = styled.div`
 	height: 100%;
 	visibility: hidden;
 	padding: 1rem;
+	border-radius: 18px;
 
 	& > p {
 		font-size: 0.8rem;
@@ -132,17 +136,17 @@ const Content = styled.div`
 const Movie = styled.li`
 	position: relative;
 
-	/* &:hover {
+	&:hover {
 		${Content} {
-			opacity: 0.7;
+			opacity: 0.9;
 			visibility: visible;
 			transition-duration: 1000ms;
 			transition-property: all;
-			transition-delay: 1000ms;
+			transition-delay: 1100ms;
 			background: var(--color-gray-200);
 			color: var(--text-gray);
 		}
-	} */
+	}
 `;
 
 const Title = styled.h3`

@@ -110,7 +110,7 @@ const Image = styled(motion.img)`
 	will-change: transform;
 `;
 
-const DeleteBtn = styled.button`
+const DeleteBtn = styled(motion.button)`
 	--size: 40px;
 	position: absolute;
 	top: 4px;
