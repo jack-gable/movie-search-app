@@ -14,7 +14,7 @@ function FavoritesList({ movies, handleRemoveMovie }) {
 					setHighlightMovieIndex(null);
 				}}
 			>
-				<h2>Favorites List</h2>
+				<h2>Watch List</h2>
 				<Favorites>
 					{movies
 						.filter((movie) => movie.poster_path)

@@ -2,25 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Star } from "react-feather";
+import VisuallyHidden from "../VisuallyHidden";
 
 function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
-	// const [openView, setOpenView] = React.useState(false);
-
-	// const addedStyles = {
-	// 	opacity: 0.7,
-	// 	visibility: "visible",
-	// 	transitionDuration: 1000 + "ms",
-	// 	transitionProperty: "all",
-	// 	transitionDelay: 1000 + "ms",
-	// 	background: "var(--color-gray-200)",
-	// 	color: "var(--text-gray)",
-	// };
-
-	// function handleClick() {
-	// 	setOpenView(!openView);
-	// 	console.log("clicked");
-	// }
-
 	return (
 		<Grid {...delegated}>
 			<Wrapper>
@@ -55,6 +39,7 @@ function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
 								}}
 							>
 								<Star />
+								<VisuallyHidden>Add to watch list</VisuallyHidden>
 							</FavoriteBtn>
 						</Movie>
 					))}
