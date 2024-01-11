@@ -7,6 +7,6 @@ A small application that allows users to search for their favorite movies, each 
 ## Technologies Used
 
 - React
-- CSS
+- Styled Components
 - TheMovieDB API
-- custom hooks
+- Framer-motion
