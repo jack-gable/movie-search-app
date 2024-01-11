@@ -3,6 +3,7 @@ import styled from "styled-components";
 import "./App.css";
 import MoviesGrid from "./components/MoviesGrid";
 import FavoritesList from "./components/FavoritesList";
+import { Star } from "react-feather";
 
 export function App() {
 	const [movies, setMovies] = React.useState([]);
@@ -10,7 +11,7 @@ export function App() {
 	React.useEffect(() => {
 		async function searchMovies() {
 			// eslint-disable-next-line no-undef
-			const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`;
+			const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1}`;
 
 			try {
 				const res = await fetch(url);
@@ -40,7 +41,11 @@ export function App() {
 
 	return (
 		<>
-			<Title>Welcome to Movie Search</Title>
+			<Title>Welcome To Movie Search</Title>
+			<SubtitleWrapper>
+				<Star color="gold" fill="gold" />
+				<p>&nbsp;- Add to watch list!</p>
+			</SubtitleWrapper>
 			<Wrapper>
 				<MoviesGrid
 					movies={unFavoritedMovies}
@@ -68,6 +73,15 @@ const Title = styled.h1`
 	font-family: "Poppins", sans-serif;
 	text-align: center;
 	padding: 0.8rem;
+`;
+
+const SubtitleWrapper = styled.div`
+	display: flex;
+	justify-content: center;
+
+	& p {
+		font-weight: 700;
+	}
 `;
 
 export default App;
