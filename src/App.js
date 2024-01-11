@@ -1,100 +1,87 @@
 import React from "react";
-import Movie from "./Movie";
-import useLocalStorage from "./hooks/useLocalStorage";
+import styled from "styled-components";
 import "./App.css";
+import MoviesGrid from "./components/MoviesGrid";
+import FavoritesList from "./components/FavoritesList";
+import { Star } from "react-feather";
 
 export function App() {
-	const [query, setQuery] = React.useState("");
 	const [movies, setMovies] = React.useState([]);
-	const [favorites, setFavorites] = useLocalStorage("favorites", []);
-	const [isFavViewOpen, setIsFavViewOpen] = React.useState(false);
 
-	function addToFavorites(newItem) {
-		setFavorites((prevItems) => [...prevItems, newItem]);
-	}
+	React.useEffect(() => {
+		async function searchMovies() {
+			// eslint-disable-next-line no-undef
+			const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1}`;
 
-	function removeFromFavorites(id) {
-		setFavorites((prevItems) => prevItems.filter((item) => item.id !== id));
-	}
-
-	function emptyFavorites() {
-		setFavorites([]);
-	}
-
-	const searchMovies = async (e) => {
-		e.preventDefault();
-
-		const url = `https://api.themoviedb.org/3/search/movie?api_key=5dcf7f28a88be0edc01bbbde06f024ab&language=en-US&query=${query}&page=1&include_adult=false`;
-
-		try {
-			const res = await fetch(url);
-			const data = await res.json();
-			setMovies(data.results);
-		} catch (err) {
-			console.error(err);
+			try {
+				const res = await fetch(url);
+				const data = await res.json();
+				setMovies(data.results);
+			} catch (err) {
+				console.error(err);
+			}
 		}
 
-		setQuery("");
-	};
+		searchMovies();
+	}, []);
+
+	function toggleMovie(toggledMovie) {
+		const nextMovies = movies.filter((movie) => movie.id !== toggledMovie.id);
+
+		nextMovies.push({
+			...toggledMovie,
+			favorited: !toggledMovie.favorited,
+		});
+
+		setMovies(nextMovies);
+	}
+
+	const favoritedMovies = movies.filter((movie) => movie.favorited);
+	const unFavoritedMovies = movies.filter((movie) => !movie.favorited);
 
 	return (
-		<div>
-			<h1 className="title">Welcome to Movie Search</h1>
-			<form className="form" onSubmit={searchMovies}>
-				<label className="label" htmlFor="query">
-					Movie Name
-				</label>
-				<input
-					id="query"
-					className="input"
-					type="text"
-					name="query"
-					placeholder="i.e. Jurassic Park"
-					value={query}
-					onChange={(e) => setQuery(e.target.value)}
+		<>
+			<Title>Welcome To Movie Search</Title>
+			<SubtitleWrapper>
+				<Star color="gold" fill="gold" />
+				<p>&nbsp;- Add to watch list!</p>
+			</SubtitleWrapper>
+			<Wrapper>
+				<MoviesGrid
+					movies={unFavoritedMovies}
+					handleSelectMovie={toggleMovie}
 				/>
-				<button className="button" type="submit">
-					Search
-				</button>
-			</form>
-			<div className="btn-container">
-				<button
-					className="button"
-					onClick={() => setIsFavViewOpen(!isFavViewOpen)}
-				>
-					View Favorites
-				</button>
-				<button className="button" onClick={() => emptyFavorites()}>
-					Clear Favorites
-				</button>
-			</div>
-			<div className="card-list">
-				{isFavViewOpen
-					? favorites
-							.filter((favorite) => favorite.poster_path)
-							.map((favorite) => (
-								<Movie
-									key={favorite.id}
-									movie={favorite}
-									favorites={favorites}
-									addToFavorites={addToFavorites}
-									removeFromFavorites={removeFromFavorites}
-								/>
-							))
-					: movies
-							.filter((movie) => movie.poster_path)
-							.map((movie) => (
-								<Movie
-									key={movie.id}
-									movie={movie}
-									favorites={favorites}
-									addToFavorites={addToFavorites}
-									removeFromFavorites={removeFromFavorites}
-								/>
-							))}
-			</div>
-		</div>
+				{favoritedMovies.length > 0 && (
+					<FavoritesList
+						movies={favoritedMovies}
+						handleRemoveMovie={toggleMovie}
+					/>
+				)}
+			</Wrapper>
+		</>
 	);
 }
+
+const Wrapper = styled.div`
+	display: flex;
+	min-height: 100vh;
+	min-height: 100svh;
+	overflow: hidden;
+`;
+
+const Title = styled.h1`
+	font-family: "Poppins", sans-serif;
+	text-align: center;
+	padding: 0.8rem;
+`;
+
+const SubtitleWrapper = styled.div`
+	display: flex;
+	justify-content: center;
+
+	& p {
+		font-weight: 700;
+	}
+`;
 
 export default App;
