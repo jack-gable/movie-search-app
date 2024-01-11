@@ -10,16 +10,11 @@ export function App() {
 
 	React.useEffect(() => {
 		async function searchMovies() {
-			// eslint-disable-next-line no-undef
-			const url = `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}&language=en-US&page=1`;
-
-			try {
-				const res = await fetch(url);
-				const data = await res.json();
-				setMovies(data.results);
-			} catch (err) {
-				console.error(err);
-			}
+			fetch(
+				"https://api.themoviedb.org/3/movie/popular?api_key=aae5b6ba2884d613a686bdec2caeaacf"
+			)
+				.then((response) => response.json())
+				.then((data) => setMovies(data.results));
 		}
 
 		searchMovies();
