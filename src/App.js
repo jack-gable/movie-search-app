@@ -4,6 +4,7 @@ import "./App.css";
 import MoviesGrid from "./components/MoviesGrid";
 import FavoritesList from "./components/FavoritesList";
 import { Star } from "react-feather";
+import Footer from "./components/Footer/Footer";
 
 export function App() {
 	const [movies, setMovies] = React.useState([]);
@@ -11,7 +12,7 @@ export function App() {
 	React.useEffect(() => {
 		async function searchMovies() {
 			fetch(
-				"https://api.themoviedb.org/3/movie/popular?api_key=aae5b6ba2884d613a686bdec2caeaacf"
+				`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.REACT_APP_API_KEY}`
 			)
 				.then((response) => response.json())
 				.then((data) => setMovies(data.results));
@@ -36,7 +37,7 @@ export function App() {
 
 	return (
 		<>
-			<Title>Welcome To Movie Search</Title>
+			<Title>Welcome To Movie Search 🍿</Title>
 			<SubtitleWrapper>
 				<Star color="gold" fill="gold" />
 				<p>&nbsp;- Add to watch list!</p>
@@ -53,6 +54,7 @@ export function App() {
 					/>
 				)}
 			</Wrapper>
+			<Footer />
 		</>
 	);
 }

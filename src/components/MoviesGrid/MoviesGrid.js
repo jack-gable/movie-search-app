@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { Star } from "react-feather";
 import VisuallyHidden from "../VisuallyHidden";
+import Sparkles from "../Sparkles/Sparkles";
 
 function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
 	return (
@@ -26,7 +27,18 @@ function MoviesGrid({ movies, handleSelectMovie, ...delegated }) {
 							<Content>
 								<Title>{movie.title}</Title>
 								<p>Release Date: {movie.release_date}</p>
-								<p>Rating: {movie.vote_average.toFixed(1)}</p>
+								<p>
+									Rating:&nbsp;
+									{movie.vote_average.toFixed(1) >= 8 ? (
+										<Sparkles>
+											<span style={{ fontWeight: "900" }}>
+												{movie.vote_average.toFixed(1)}
+											</span>
+										</Sparkles>
+									) : (
+										<span>{movie.vote_average.toFixed(1)}</span>
+									)}
+								</p>
 								<Description>{movie.overview}</Description>
 							</Content>
 							<FavoriteBtn
