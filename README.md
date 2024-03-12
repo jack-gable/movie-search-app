@@ -12,6 +12,7 @@ Some features I'd like to add in the future would be the ability for the user to
 -   _Styled Components_
 -   _TheMovieDB API_
 -   _Framer-motion_
+-   _Netlify_
 
 ## Usage
 
